@@ -18,6 +18,7 @@ end
 execute 'extract zsh' do
   command "tar -xvf #{source_folder}.tar.gz"
   action :nothing
+  cwd node['zsh']['tmp']
   notifies :run, 'execute[configure zsh]', :immediately
 end
 
