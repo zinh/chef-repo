@@ -1,0 +1,45 @@
+{
+  "run_list": [
+    "recipe[ruby_build]",
+    "recipe[ruby_rbenv::system]",
+    "recipe[chef_nginx::source]",
+    "recipe[postgresql::server]"
+  ],
+  "automatic": {
+    "ipaddress": "microv-05"
+  },
+  "rbenv": {
+    "rubies": ["2.4.0"],
+    "global": "2.4.0",
+    "gems": {
+      "2.4.0": [
+        {"name": "bundler"},
+        {"name": "passenger"}
+      ]
+    }
+  },
+  "nginx": {
+    "version": "1.10.3",
+    "source": {
+      "modules": [ "chef_nginx::openssl_source", "chef_nginx::http_ssl_module", "chef_nginx::http_gzip_static_module", "chef_nginx::passenger" ],
+      "checksum": "75020f1364cac459cb733c4e1caed2d00376e40ea05588fb8793076a4c69dd90"
+    },
+    "openssl_source": {
+      "version": "1.1.0e"
+    },
+    "passenger": {
+      "install_method": "source",
+      "version": "5.1.2",
+      "ruby": "/usr/local/rbenv/versions/2.4.0/bin/ruby",
+      "root": "/usr/local/rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/passenger-5.1.2"
+    },
+    "gzip_static": "yes"
+  },
+  "postgresql": {
+    "enable_pgdg_apt": true,
+    "contrib": {
+      "extensions": ["pg_trgm","fuzzystrmatch"]
+    },
+    "password": {"postgres": "fba4a30fbc8657d9cfa555133e4a9470"}
+  }
+}
